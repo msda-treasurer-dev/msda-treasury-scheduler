@@ -199,7 +199,7 @@ export default function TreasuryScheduler() {
   const toggleUnavailable = (member, weekIdx) => {
     setUnavailability(prev => ({
       ...prev,
-      [member]: { ...prev[member], [weekIdx]: !prev[member][weekIdx] },
+      [member]: { ...(prev[member] || {}), [weekIdx]: !((prev[member] || {})[weekIdx]) },
     }));
     setSaved(false);
   };
