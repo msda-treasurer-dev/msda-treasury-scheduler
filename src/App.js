@@ -407,7 +407,7 @@ export default function TreasuryScheduler() {
                     boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
                   }}>
                     <div style={{ fontSize: "10px", fontWeight: "600", color: "#94A3B8", letterSpacing: "0.06em", marginBottom: "4px" }}>
-                    Saturday {i + 1}
+                    Sat
                     </div>
                     <div style={{ fontSize: "13px", color: "#1E293B", fontWeight: "600", marginBottom: "10px" }}>{fmtDate(sat)}</div>
                     <div style={{
@@ -461,7 +461,7 @@ export default function TreasuryScheduler() {
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 {SATURDAYS.map((sat, i) => {
                   const assigned = (schedule[i] || []).filter(Boolean);
-                  const hasAssignment = assigned.length > 0;
+                  const hasAssignment = assigned.length === 2;
                   return (
                     <div key={i} style={{
                       background: "#fff",
@@ -592,7 +592,7 @@ export default function TreasuryScheduler() {
                   }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "14px", flexWrap: "wrap" }}>
                       <div style={{ minWidth: "100px" }}>
-                        <div style={{ fontSize: "10px", fontWeight: "600", color: "#94A3B8", letterSpacing: "0.06em" }}>SAT {String(i + 1).padStart(2, "0")}</div>
+                        <div style={{ fontSize: "10px", fontWeight: "600", color: "#94A3B8", letterSpacing: "0.06em" }}>Saturday</div>
                         <div style={{ fontSize: "14px", color: "#0F172A", fontWeight: "700" }}>{fmtShort(sat)}</div>
                       </div>
 
@@ -664,7 +664,7 @@ export default function TreasuryScheduler() {
                                     }}>
                                       <Avatar name={m} index={TEAM_MEMBERS.indexOf(m)} size={18} />
                                       {m.split(" ")[0]}
-                                      {isUnavailNow && <span style={{ fontSize: "9px", color: "#F59E0B" }}>unavail</span>}
+                                      {isUnavailNow && <span style={{ fontSize: "9px", color: "#F59E0B" }}>unavailable</span>}
                                     </button>
                                   );
                                 })}
