@@ -461,7 +461,7 @@ export default function TreasuryScheduler() {
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 {SATURDAYS.map((sat, i) => {
                   const assigned = (schedule[i] || []).filter(Boolean);
-                  const hasAssignment = assigned.length === 2;
+                  const hasAssignment = assigned.length > 0; const fullyCovered = assigned.length === 2;
                   return (
                     <div key={i} style={{
                       background: "#fff",
@@ -515,10 +515,12 @@ export default function TreasuryScheduler() {
                         <div style={{ marginTop: "10px" }}>
                           <span style={{
                             display: "inline-block",
-                            background: "#F0FDF4", border: "1px solid #BBF7D0",
+                            background: fullyCovered ? "#F0FDF4" : "#FEF2F2",
+                            border: `1px solid ${fullyCovered ? "#BBF7D0" : "#FECACA"}`,
                             borderRadius: "20px", padding: "4px 14px",
-                            fontSize: "11px", fontWeight: "600", color: "#16A34A",
-                          }}>✓ Covered</span>
+                            fontSize: "11px", fontWeight: "600",
+                            color: fullyCovered ? "#16A34A" : "#EF4444",
+                          }}>{fullyCovered ? "✓ Covered" : "✗ Not fully covered"}</span>
                         </div>
                       )}
                     </div>
@@ -592,7 +594,7 @@ export default function TreasuryScheduler() {
                   }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "14px", flexWrap: "wrap" }}>
                       <div style={{ minWidth: "100px" }}>
-                        <div style={{ fontSize: "10px", fontWeight: "600", color: "#94A3B8", letterSpacing: "0.06em" }}>Saturday</div>
+                        <div style={{ fontSize: "10px", fontWeight: "600", color: "#94A3B8", letterSpacing: "0.06em" }}>SAT</div>
                         <div style={{ fontSize: "14px", color: "#0F172A", fontWeight: "700" }}>{fmtShort(sat)}</div>
                       </div>
 
@@ -796,8 +798,7 @@ function SlotPicker({ slot, value, available, unavailable, allMembers, otherSele
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
                     <span style={{ fontSize: "10px", color: "#94A3B8", fontWeight: "600" }}>{shiftCounts[m] || 0}×</span>
-                    {isUnavail && <span style={{ fontSize: "9px", color: "#F59E0B", background: "#FFFBEB", borderRadius: "4px", padding: "1px 5px" }}>unavail</span>}
-                    {isRestricted && <span style={{ fontSize: "9px", color: "#92400E", background: "#FFFBEB", borderRadius: "4px", padding: "1px 5px" }}>usually separate</span>}
+                    {isUnavail && <span style={{ fontSize: "9px", color: "#F59E0B", background: "#FFFBEB", borderRadius: "4px", padding: "1px 5px" }}>unavailable</span>}
                     {isSelf && <span style={{ fontSize: "9px", color: "#94A3B8", background: "#F1F5F9", borderRadius: "4px", padding: "1px 5px" }}>selected</span>}
                   </div>
                 </button>
