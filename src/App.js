@@ -407,7 +407,7 @@ export default function TreasuryScheduler() {
                     boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
                   }}>
                     <div style={{ fontSize: "10px", fontWeight: "600", color: "#94A3B8", letterSpacing: "0.06em", marginBottom: "4px" }}>
-                    SAT
+                    Saturday
                     </div>
                     <div style={{ fontSize: "13px", color: "#1E293B", fontWeight: "600", marginBottom: "10px" }}>{fmtDate(sat)}</div>
                     <div style={{
