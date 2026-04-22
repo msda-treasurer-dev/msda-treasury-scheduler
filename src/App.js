@@ -303,8 +303,8 @@ export default function TreasuryScheduler() {
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
           <div
-            onClick={() => logoInput.current.click()}
-            title="Click to upload your church logo"
+            onClick={() => setMode("team")}
+            title="Go to home"
             style={{
               width: "48px", height: "48px", borderRadius: "10px",
               background: logo ? "transparent" : "#F1F5F9",
