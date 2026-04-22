@@ -602,7 +602,7 @@ export default function TreasuryScheduler() {
                       <div style={{ marginLeft: "auto", display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
                         {unavailForDay.length > 0 && (
                           <span style={{ fontSize: "11px", color: "#F59E0B", background: "#FFFBEB", border: "1px solid #FDE68A", borderRadius: "6px", padding: "3px 8px", fontWeight: "500" }}>
-                            Unavail: {unavailForDay.map(m => m.split(" ")[0]).join(", ")}
+                            Unavailable: {unavailForDay.map(m => m.split(" ")[0]).join(", ")}
                           </span>
                         )}
                         {hasConflict && <span style={{ fontSize: "11px", color: "#EF4444", fontWeight: "700", background: "#FEF2F2", border: "1px solid #FECACA", borderRadius: "6px", padding: "3px 8px" }}>⚠ Conflict!</span>}
