@@ -110,7 +110,7 @@ function autoSchedule(unavailability) {
   return schedule;
 }
 
-const AVATAR_COLORS = ["#4F46E5","#7C3AED","#0891B2","#059669","#D97706","#DC2626","#2563EB","#0E7490"];
+const AVATAR_COLORS = ["#4F46E5","#7C3AED","#0891B2","#059669","#D97706","#DC2626","#2563EB","#0E7490","#BE185D","#65A30D","#9333EA"];
 
 function Avatar({ name, index, size = 28 }) {
   const initials = name.split(" ").map(n => n[0]).join("").slice(0, 2);
