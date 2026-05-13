@@ -40,6 +40,12 @@ const TEAM_MEMBERS = [
 const RESTRICTED_PAIRS = [
   ["Roshane Nembhard", "Cynthia Francis"],
   ["Elias Williams", "Brielle Pillay"],
+  // New members — avoid pairing together
+  ["Elias Williams", "Shelka Eccleston"],
+  ["Elias Williams", "Fabrice Stevens"],
+  ["Brielle Pillay", "Shelka Eccleston"],
+  ["Brielle Pillay", "Fabrice Stevens"],
+  ["Shelka Eccleston", "Fabrice Stevens"],
   // Add more pairs here, e.g: ["Tamara Kidd", "Pete McKenzie"],
 ];
 
