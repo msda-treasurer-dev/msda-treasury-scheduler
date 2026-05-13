@@ -24,17 +24,22 @@ const fbSet = async (path, data) => {
 const TEAM_MEMBERS = [
   "Roshane Nembhard",
   "Cynthia Francis",
-  "Tamalia Kidd",
-  "Lurline Moore",
-  "Henderson Henry",
-  "Pete McKenzie",
   "Fay Davis",
+  "Tamalia Kidd",
+  "Pete McKenzie",
+  "Henderson Henry",
+  "Elias Williams",
+  "Brielle Pillay",
+  "Shelka Eccleston",
+  "Fabrice Stevens",
+  "Lurline Moore",
 ];
 
 // ✏️  Add pairs of people who should NEVER be scheduled together automatically.
 // Each entry is [Person A, Person B] — order doesn't matter.
 const RESTRICTED_PAIRS = [
   ["Roshane Nembhard", "Cynthia Francis"],
+  ["Elias Williams", "Brielle Pillay"],
   // Add more pairs here, e.g: ["Tamara Kidd", "Pete McKenzie"],
 ];
 
@@ -46,9 +51,9 @@ function isRestrictedPair(a, b) {
 }
 
 // ✏️  Change the number below to show more or fewer Saturdays (currently 8)
-function getSaturdays(count = 9) {
+function getSaturdays(count = 8) {
   const saturdays = [];
-  const start = new Date(2026, 4, 2); // ✏️  Change start date here if needed
+  const start = new Date(2026, 5, 6); // ✏️  Change start date here if needed
   for (let i = 0; i < count; i++) {
     const d = new Date(start);
     d.setDate(start.getDate() + i * 7);
@@ -609,7 +614,7 @@ export default function TreasuryScheduler() {
                         )}
                         {hasConflict && <span style={{ fontSize: "11px", color: "#EF4444", fontWeight: "700", background: "#FEF2F2", border: "1px solid #FECACA", borderRadius: "6px", padding: "3px 8px" }}>⚠ Conflict!</span>}
                         {hasDuplicate && <span style={{ fontSize: "11px", color: "#EF4444", fontWeight: "700", background: "#FEF2F2", border: "1px solid #FECACA", borderRadius: "6px", padding: "3px 8px" }}>⚠ Same person twice!</span>}
-                        {hasRestrictedPair && <span style={{ fontSize: "11px", color: "#92400E", fontWeight: "500", background: "#FFFBEB", border: "1px solid #FDE68A", borderRadius: "6px", padding: "3px 8px" }}>⚠  Note: Head & Assistant paired </span>}
+                        {hasRestrictedPair && <span style={{ fontSize: "11px", color: "#92400E", fontWeight: "500", background: "#FFFBEB", border: "1px solid #FDE68A", borderRadius: "6px", padding: "3px 8px" }}>⚠  Note: Restricted pair </span>}
                         {(assigned[0] || assigned[1]) && (
                           <button onClick={() => isSwapping ? setSwapWeek(null) : initiateSwap(i)} style={{
                             background: isSwapping ? "#EEF2FF" : "#F8FAFC",
