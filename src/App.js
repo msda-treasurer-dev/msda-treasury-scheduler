@@ -718,12 +718,27 @@ export default function TreasuryScheduler() {
             <div style={{ fontSize: "17px", fontWeight: "700", color: "#0F172A", textAlign: "center", marginBottom: "4px" }}>Treasurer Access</div>
             <div style={{ fontSize: "13px", color: "#94A3B8", textAlign: "center", marginBottom: "24px" }}>Enter the password to continue</div>
             <input
-              type="password"
-              value={passwordInput}
-              onChange={e => { setPasswordInput(e.target.value); setPasswordError(false); }}
-              onKeyDown={e => e.key === "Enter" && handlePasswordSubmit()}
-              placeholder="Password"
-              autoFocus
+              <div style={{ position: "relative", marginBottom: "8px" }}>
+              <input
+                type={showPassword ? "text" : "password"}
+                value={passwordInput}
+                onChange={e => { setPasswordInput(e.target.value); setPasswordError(false); }}
+                onKeyDown={e => e.key === "Enter" && handlePasswordSubmit()}
+                placeholder="Password"
+                autoFocus
+                style={{
+                  width: "100%", padding: "11px 44px 11px 14px", borderRadius: "9px",
+                  border: `1.5px solid ${passwordError ? "#FECACA" : "#E2E8F0"}`,
+                  fontFamily: "inherit", fontSize: "14px", outline: "none",
+                  background: passwordError ? "#FEF2F2" : "#F8FAFC",
+                  color: "#0F172A", boxSizing: "border-box",
+                }}
+              />
+              <button onClick={() => setShowPassword(p => !p)} type="button" style={{
+                position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)",
+                background: "none", border: "none", cursor: "pointer", fontSize: "16px", padding: "0",
+              }}>{showPassword ? "🙈" : "👁️"}</button>
+              </div>
               style={{
                 width: "100%", padding: "11px 14px", borderRadius: "9px",
                 border: `1.5px solid ${passwordError ? "#FECACA" : "#E2E8F0"}`,
