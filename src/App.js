@@ -147,6 +147,7 @@ export default function TreasuryScheduler() {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
   const [passwordError, setPasswordError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   // Load data from Firebase on first render
   useEffect(() => {
@@ -186,6 +187,7 @@ export default function TreasuryScheduler() {
       setShowPasswordModal(true);
       setPasswordInput("");
       setPasswordError(false);
+      setShowPassword(false);
     }
   };
 
@@ -196,6 +198,7 @@ export default function TreasuryScheduler() {
       setMode("treasurer");
       setPasswordInput("");
       setPasswordError(false);
+      setShowPassword(false);
     } else {
       setPasswordError(true);
       setPasswordInput("");
@@ -620,7 +623,7 @@ export default function TreasuryScheduler() {
                         )}
                         {hasConflict && <span style={{ fontSize: "11px", color: "#EF4444", fontWeight: "700", background: "#FEF2F2", border: "1px solid #FECACA", borderRadius: "6px", padding: "3px 8px" }}>⚠ Conflict!</span>}
                         {hasDuplicate && <span style={{ fontSize: "11px", color: "#EF4444", fontWeight: "700", background: "#FEF2F2", border: "1px solid #FECACA", borderRadius: "6px", padding: "3px 8px" }}>⚠ Same person twice!</span>}
-                        {hasRestrictedPair && <span style={{ fontSize: "11px", color: "#92400E", fontWeight: "500", background: "#FFFBEB", border: "1px solid #FDE68A", borderRadius: "6px", padding: "3px 8px" }}>⚠  Note: Restricted pair </span>}
+                        {hasRestrictedPair && <span style={{ fontSize: "11px", color: "#92400E", fontWeight: "500", background: "#FFFBEB", border: "1px solid #FDE68A", borderRadius: "6px", padding: "3px 8px" }}>⚠ Note: Restricted pair</span>}
                         {(assigned[0] || assigned[1]) && (
                           <button onClick={() => isSwapping ? setSwapWeek(null) : initiateSwap(i)} style={{
                             background: isSwapping ? "#EEF2FF" : "#F8FAFC",
@@ -717,21 +720,27 @@ export default function TreasuryScheduler() {
             <div style={{ fontSize: "28px", textAlign: "center", marginBottom: "8px" }}>🏦</div>
             <div style={{ fontSize: "17px", fontWeight: "700", color: "#0F172A", textAlign: "center", marginBottom: "4px" }}>Treasurer Access</div>
             <div style={{ fontSize: "13px", color: "#94A3B8", textAlign: "center", marginBottom: "24px" }}>Enter the password to continue</div>
-            <input
-              type="password"
-              value={passwordInput}
-              onChange={e => { setPasswordInput(e.target.value); setPasswordError(false); }}
-              onKeyDown={e => e.key === "Enter" && handlePasswordSubmit()}
-              placeholder="Password"
-              autoFocus
-              style={{
-                width: "100%", padding: "11px 14px", borderRadius: "9px",
-                border: `1.5px solid ${passwordError ? "#FECACA" : "#E2E8F0"}`,
-                fontFamily: "inherit", fontSize: "14px", outline: "none",
-                background: passwordError ? "#FEF2F2" : "#F8FAFC",
-                color: "#0F172A", boxSizing: "border-box", marginBottom: "8px",
-              }}
-            />
+            <div style={{ position: "relative", marginBottom: "8px" }}>
+              <input
+                type={showPassword ? "text" : "password"}
+                value={passwordInput}
+                onChange={e => { setPasswordInput(e.target.value); setPasswordError(false); }}
+                onKeyDown={e => e.key === "Enter" && handlePasswordSubmit()}
+                placeholder="Password"
+                autoFocus
+                style={{
+                  width: "100%", padding: "11px 44px 11px 14px", borderRadius: "9px",
+                  border: `1.5px solid ${passwordError ? "#FECACA" : "#E2E8F0"}`,
+                  fontFamily: "inherit", fontSize: "14px", outline: "none",
+                  background: passwordError ? "#FEF2F2" : "#F8FAFC",
+                  color: "#0F172A", boxSizing: "border-box",
+                }}
+              />
+              <button onClick={() => setShowPassword(p => !p)} type="button" style={{
+                position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)",
+                background: "none", border: "none", cursor: "pointer", fontSize: "16px", padding: "0",
+              }}>{showPassword ? "🙈" : "👁️"}</button>
+            </div>
             {passwordError && (
               <div style={{ fontSize: "12px", color: "#EF4444", marginBottom: "12px", fontWeight: "500" }}>
                 ✕ Incorrect password. Please try again.
