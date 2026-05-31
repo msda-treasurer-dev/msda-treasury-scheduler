@@ -576,7 +576,7 @@ export default function TreasuryScheduler() {
                         <span style={{ fontSize: "12px", color: "#334155", fontWeight: "500" }}>{m.split(" ")[0]}</span>
                       </div>
                       <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", marginBottom: "5px" }}>
-                        <span style={{ color: "#4F46E5", fontWeight: "600" }}>{count} shifts</span>
+                        <span style={{ color: "#4F46E5", fontWeight: "600" }}>{count} {count === 1 ? "shift" : "shifts"}</span>
                         {unavail > 0 && <span style={{ color: "#F59E0B", fontWeight: "500" }}>{unavail} unavailable</span>}
                       </div>
                       <div style={{ height: "5px", background: "#F1F5F9", borderRadius: "3px" }}>
