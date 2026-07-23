@@ -59,7 +59,7 @@ function isRestrictedPair(a, b) {
 // ✏️  Change the number below to show more or fewer Saturdays (currently 8)
 function getSaturdays(count = 9) {
   const saturdays = [];
-  const start = new Date(2026, 7, 8); // ✏️  Change start date here if needed
+  const start = new Date(2026, 7, 1); // ✏️  Change start date here if needed
   for (let i = 0; i < count; i++) {
     const d = new Date(start);
     d.setDate(start.getDate() + i * 7);
