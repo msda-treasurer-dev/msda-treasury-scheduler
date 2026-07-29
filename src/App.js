@@ -579,7 +579,7 @@ export default function TreasuryScheduler() {
               <button onClick={handleShuffle} style={wb("outline")}>🔀 Reshuffle</button>
               <button onClick={handleClearSchedule} style={wb("red")}>✕ Clear Schedule</button>
               <button onClick={copyForWhatsApp} style={wb("green")}>📋 Copy Schedule</button>
-              <button onClick={exportToPDF} style={wb("pdf")}>🖨️ Export to PDF</button>
+              <button onClick={exportToPDF} style={wb("pdf")}>🖨️ Print Schedule</button>
               <button onClick={handleLockTreasurer} style={wb("lock")}>🔒 Lock</button>
               {(autoMsg || copyMsg) && (
                 <div style={{ fontSize: "12px", color: "#16A34A", background: "#F0FDF4", border: "1px solid #BBF7D0", borderRadius: "8px", padding: "8px 14px", fontWeight: "500" }}>
