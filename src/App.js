@@ -46,7 +46,7 @@ const RESTRICTED_PAIRS = [
   ["Brielle Pillay", "Shelka Eccleston"],
   ["Brielle Pillay", "Fabrice Stevens"],
   ["Shelka Eccleston", "Fabrice Stevens"],
-  // Add more pairs here, e.g: ["Tamara Kidd", "Pete McKenzie"],
+  // Add more pairs here, e.g: ["Tamalia Kidd", "Pete McKenzie"],
 ];
 
 // Helper: returns true if two people are a restricted pair
@@ -56,7 +56,7 @@ function isRestrictedPair(a, b) {
   );
 }
 
-// ✏️  Change the number below to show more or fewer Saturdays (currently 8)
+// ✏️  Change the number below to show more or fewer Saturdays
 function getSaturdays(count = 9) {
   const saturdays = [];
   const start = new Date(2026, 9, 3); // ✏️  Change start date here if needed
@@ -175,6 +175,19 @@ export default function TreasuryScheduler() {
     setTimeout(() => setSaved(false), 2200);
   };
 
+  const clearMemberAvailability = async (member) => {
+    const updated = { ...unavailability, [member]: {} };
+    setUnavailability(updated);
+    try { await fbSet("unavailability", updated); } catch {}
+  };
+
+  const clearAllAvailability = async () => {
+    const updated = {};
+    TEAM_MEMBERS.forEach(m => { updated[m] = {}; });
+    setUnavailability(updated);
+    try { await fbSet("unavailability", updated); } catch {}
+  };
+
   const handleTreasurerClick = () => {
     if (treasurerUnlocked) {
       setMode("treasurer");
@@ -200,11 +213,6 @@ export default function TreasuryScheduler() {
     }
   };
 
-  const clearMemberAvailability = async (member) => {
-  const updated = { ...unavailability, [member]: {} };
-  setUnavailability(updated);
-  try { await fbSet("unavailability", updated); } catch {}
-};
   const handleLockTreasurer = () => {
     setTreasurerUnlocked(false);
     setMode("team");
@@ -273,12 +281,10 @@ export default function TreasuryScheduler() {
 
   const exportToPDF = () => {
     const printWindow = window.open("", "_blank");
-    const assigned_months = [...new Set(SATURDAYS.map(sat => sat.toLocaleDateString("en-GB", { month: "long", year: "numeric" })))];
     const firstMonth = SATURDAYS[0].toLocaleDateString("en-GB", { month: "long" });
+    const lastMonthName = SATURDAYS[SATURDAYS.length - 1].toLocaleDateString("en-GB", { month: "long" });
     const lastMonth = SATURDAYS[SATURDAYS.length - 1].toLocaleDateString("en-GB", { month: "long", year: "numeric" });
-    const monthRange = firstMonth === SATURDAYS[SATURDAYS.length - 1].toLocaleDateString("en-GB", { month: "long" })
-      ? lastMonth
-      : `${firstMonth} – ${lastMonth}`;
+    const monthRange = firstMonth === lastMonthName ? lastMonth : `${firstMonth} – ${lastMonth}`;
 
     const rows = SATURDAYS.map((sat, i) => {
       const assigned = (schedule[i] || []).filter(Boolean);
@@ -506,7 +512,8 @@ export default function TreasuryScheduler() {
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 {SATURDAYS.map((sat, i) => {
                   const assigned = (schedule[i] || []).filter(Boolean);
-                  const hasAssignment = assigned.length > 0; const fullyCovered = assigned.length === 2;
+                  const hasAssignment = assigned.length > 0;
+                  const fullyCovered = assigned.length === 2;
                   return (
                     <div key={i} style={{
                       background: "#fff",
@@ -734,28 +741,47 @@ export default function TreasuryScheduler() {
                 );
               })}
             </div>
-                    <div style={{ marginTop: "28px" }}>
-            <div style={{ fontSize: "11px", fontWeight: "600", color: "#64748B", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "12px" }}>Clear Member Availability</div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-              {TEAM_MEMBERS.map((m, i) => (
-                <button key={m} onClick={() => {
-                  if (window.confirm(`Clear all saved availability for ${m}?`)) {
-                    clearMemberAvailability(m);
+
+            {/* ── CLEAR MEMBER AVAILABILITY ── */}
+            <div style={{ marginTop: "28px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px", flexWrap: "wrap" }}>
+                <div style={{ fontSize: "11px", fontWeight: "600", color: "#64748B", letterSpacing: "0.06em", textTransform: "uppercase" }}>Clear Member Availability</div>
+                <button onClick={() => {
+                  if (window.confirm("Clear saved availability for ALL members?")) {
+                    clearAllAvailability();
                   }
                 }} style={{
-                  display: "flex", alignItems: "center", gap: "8px",
-                  padding: "8px 14px", borderRadius: "8px", cursor: "pointer",
+                  padding: "6px 14px", borderRadius: "8px", cursor: "pointer",
                   background: "#FEF2F2", border: "1.5px solid #FECACA",
-                  color: "#EF4444", fontFamily: "inherit", fontSize: "12px", fontWeight: "600",
-                  transition: "all 0.15s",
-                }}>
-                  <Avatar name={m} index={i} size={20} />
-                  {m.split(" ")[0]} ✕
-                </button>
-              ))}
+                  color: "#EF4444", fontFamily: "inherit", fontSize: "11px", fontWeight: "700",
+                }}>Clear All ✕</button>
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                {TEAM_MEMBERS.map((m, i) => {
+                  const hasDates = (unavailCounts[m] || 0) > 0;
+                  return (
+                    <button key={m} disabled={!hasDates} onClick={() => {
+                      if (window.confirm(`Clear all saved availability for ${m}?`)) {
+                        clearMemberAvailability(m);
+                      }
+                    }} style={{
+                      display: "flex", alignItems: "center", gap: "8px",
+                      padding: "8px 14px", borderRadius: "8px",
+                      cursor: hasDates ? "pointer" : "default",
+                      background: hasDates ? "#FEF2F2" : "#F0FDF4",
+                      border: `1.5px solid ${hasDates ? "#FECACA" : "#BBF7D0"}`,
+                      color: hasDates ? "#EF4444" : "#16A34A",
+                      fontFamily: "inherit", fontSize: "12px", fontWeight: "600",
+                      transition: "all 0.15s",
+                    }}>
+                      <Avatar name={m} index={i} size={20} />
+                      {m.split(" ")[0]} {hasDates ? `(${unavailCounts[m]}) ✕` : "✓"}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
-        </div>
         )}
       </div>
 
@@ -862,7 +888,6 @@ function SlotPicker({ slot, value, available, unavailable, allMembers, otherSele
             {allMembers.map((m, i) => {
               const isUnavail = unavailable.includes(m);
               const isSelf = m === otherSelected;
-              const isRestricted = otherSelected && isRestrictedPair(m, otherSelected);
               const disabled = isUnavail || isSelf;
               return (
                 <button key={m} disabled={disabled} onClick={() => { if (!disabled) { onChange(m); setOpen(false); } }} style={ds(isUnavail ? "#F59E0B" : isSelf ? "#94A3B8" : "#1E293B", disabled)}>
