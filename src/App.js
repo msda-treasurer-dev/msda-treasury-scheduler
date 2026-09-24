@@ -200,6 +200,11 @@ export default function TreasuryScheduler() {
     }
   };
 
+  const clearMemberAvailability = async (member) => {
+  const updated = { ...unavailability, [member]: {} };
+  setUnavailability(updated);
+  try { await fbSet("unavailability", updated); } catch {}
+};
   const handleLockTreasurer = () => {
     setTreasurerUnlocked(false);
     setMode("team");
@@ -729,7 +734,28 @@ export default function TreasuryScheduler() {
                 );
               })}
             </div>
+                    <div style={{ marginTop: "28px" }}>
+            <div style={{ fontSize: "11px", fontWeight: "600", color: "#64748B", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "12px" }}>Clear Member Availability</div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+              {TEAM_MEMBERS.map((m, i) => (
+                <button key={m} onClick={() => {
+                  if (window.confirm(`Clear all saved availability for ${m}?`)) {
+                    clearMemberAvailability(m);
+                  }
+                }} style={{
+                  display: "flex", alignItems: "center", gap: "8px",
+                  padding: "8px 14px", borderRadius: "8px", cursor: "pointer",
+                  background: "#FEF2F2", border: "1.5px solid #FECACA",
+                  color: "#EF4444", fontFamily: "inherit", fontSize: "12px", fontWeight: "600",
+                  transition: "all 0.15s",
+                }}>
+                  <Avatar name={m} index={i} size={20} />
+                  {m.split(" ")[0]} ✕
+                </button>
+              ))}
+            </div>
           </div>
+        </div>
         )}
       </div>
 
